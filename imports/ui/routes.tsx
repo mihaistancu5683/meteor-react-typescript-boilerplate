@@ -4,7 +4,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import App from './App';
 import Login from './components/Login';
-import Home from './components/Home';
+import MainPage from './components/MainPage';
 import Admin from './components/Admin';
 import TasksContainer from './containers/TasksContainer';
 
@@ -18,7 +18,7 @@ function forceLogin(location: any, replaceWith: (route: string) => void) {
 export default (
     <Route component={App}>
         <Route path="/login" component={Login} />
-        <Route path="/" component={Home} />
+        <Route path="/" component={MainPage} />
         <Route path="/admin" component={Admin} onEnter={forceLogin}>
             <Route path="tasks" component={TasksContainer} />
         </Route>
