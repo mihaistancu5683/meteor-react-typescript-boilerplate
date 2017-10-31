@@ -3,38 +3,40 @@ import { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
 import { Accounts } from 'meteor/accounts-base';
 
-export default class Register extends Component {
-  constructor(props) {
+interface IRegisterProps {
+
+}
+interface IRegisterState {
+  error: string;
+  registrationEmail: string;
+  registrationName: string;
+  registrationPassword: string;
+  registrationPlateNo: string;
+}
+export default class Register extends Component<IRegisterProps, IRegisterState> {
+  constructor(props: IRegisterProps) {
     super(props);
     this.state = {
-      registrationName: '',
+      error: '',
       registrationEmail: '',
+      registrationName: '',
       registrationPassword: '',
       registrationPlateNo: '',
-      error: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  private handleChange(field, event) {
+    this.setState({ [field]: event.target.value });
+  }
 
-    const name = this.registrationName;
-    const mail = this.registrationEmail.value;
-    const pass = this.registrationPassword.value;
-    const plate = this.plateNo.value;
-    const prof = {
-      plateno: plate,
-    };
-    // this.setState({ error: 'test' });
-    // similar to login page, only instead of calling loginWithPassword(), 
-    // we’ll be creating a user with the createUser() function
-    // This will insert a new user account document into our app’s database.
+  public handleSubmit(e) {
+    e.preventDefault();
     Accounts.createUser({
-      email: mail,
-      username: name,
-      password: pass,
-      profile: prof,
+      email: this.state.registrationEmail,
+      password: this.state.registrationPassword,
+      //profile: prof,
+      username: this.state.registrationName,
     }, (err) => {
       if (err) {
         this.setState({
@@ -47,14 +49,11 @@ export default class Register extends Component {
   }
 
   render() {
-    const error = this.state.error;
+    const { error, registrationEmail, registrationName, registrationPassword, registrationPlateNo } = this.state;
     return (
       <div id="user_credentials" className="usr" >
         <h4 id="new_account">Sign up</h4>
-        { error.length > 0 ?
-          <div className="alert alert-danger fade in">{error}</div>
-          : ''
-        }
+        { error.length > 0 ? <div className="alert alert-danger fade in">{error}</div> : ''}
         <form
           className="col s12"
           onSubmit={this.handleSubmit}
@@ -63,48 +62,52 @@ export default class Register extends Component {
             <p id="tooltip_username" className="tooltip">Username</p>
             <input
               type="text"
-              ref={(x) => { this.registrationName = x; }}
               placeholder="Username"
               name="username"
               id="username"
-              onFocus={this.myFocusName}
+              onFocus={this.state.myFocusName}
               className="input_field"
+              value={registrationName}
+              onChange={this.handleChange.bind(this, 'registrationName')}
             />
           </div>
           <div className="row">
             <p id="tooltip_email" className="tooltip">Email</p>
             <input
               type="email"
-              ref={(x) => { this.registrationEmail = x; }}
               placeholder="E-mail address"
               name="email"
               id="input_email"
               className="input_field"
               onFocus={this.myFocusMail}
+              value={registrationEmail}
+              onChange={this.handleChange.bind(this, 'registrationEmail')}
             />
           </div>
           <div className="row">
             <p id="tooltip_psw" className="tooltip">Password</p>
             <input
               type="password"
-              ref={(x) => { this.registrationPassword = x; }}
               placeholder="Password"
               name="password"
               id="input_psw"
               className="input_field"
               onFocus={this.myFocusPsw}
+              value={registrationPassword}
+              onChange={this.handleChange.bind(this, 'registrationPassword')}
             />
           </div>
           <div className="row">
             <p id="tooltip_plate" className="tooltip">License Plate</p>
             <input
               type="text"
-              ref={(x) => { this.plateNo = x; }}
               placeholder="Plate number"
               name="plate"
               id="input_plate"
               className="input_field"
               onFocus={this.myFocusPlate}
+              value={registrationPlateNo}
+              onChange={this.handleChange.bind(this, 'registrationPlateNo')}
             />
           </div>
           <div className="row">
