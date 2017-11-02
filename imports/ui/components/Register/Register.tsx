@@ -2,17 +2,24 @@ import * as React from 'react';
 import { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
 import { Accounts } from 'meteor/accounts-base';
+import StringInputRow from '../StringInputRow';
 
 interface IRegisterProps {
 
 }
+
 interface IRegisterState {
   error: string;
   registrationEmail: string;
   registrationName: string;
   registrationPassword: string;
   registrationPlateNo: string;
+  visibleNameTooltip: string;
+  visibleEmailTooltip: string;
+  visiblePassTooltip: string;
+  visiblePlateNoTooltip: string;
 }
+
 export default class Register extends Component<IRegisterProps, IRegisterState> {
   constructor(props: IRegisterProps) {
     super(props);
@@ -22,12 +29,12 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
       registrationName: '',
       registrationPassword: '',
       registrationPlateNo: '',
+      visibleEmailTooltip: 'visible',
+      visibleNameTooltip: 'visible',
+      visiblePassTooltip: 'visible',
+      visiblePlateNoTooltip: 'visible',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  private handleChange(field, event) {
-    this.setState({ [field]: event.target.value });
   }
 
   public handleSubmit(e) {
@@ -35,7 +42,9 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
     Accounts.createUser({
       email: this.state.registrationEmail,
       password: this.state.registrationPassword,
-      //profile: prof,
+      profile: {
+        plateNo: this.state.registrationPlateNo,
+      },
       username: this.state.registrationName,
     }, (err) => {
       if (err) {
@@ -48,7 +57,7 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
     });
   }
 
-  render() {
+  public render() {
     const { error, registrationEmail, registrationName, registrationPassword, registrationPlateNo } = this.state;
     return (
       <div id="user_credentials" className="usr" >
@@ -58,58 +67,38 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
           className="col s12"
           onSubmit={this.handleSubmit}
         >
-          <div className="row">
-            <p id="tooltip_username" className="tooltip">Username</p>
-            <input
-              type="text"
-              placeholder="Username"
-              name="username"
-              id="username"
-              onFocus={this.state.myFocusName}
-              className="input_field"
-              value={registrationName}
-              onChange={this.handleChange.bind(this, 'registrationName')}
-            />
-          </div>
-          <div className="row">
-            <p id="tooltip_email" className="tooltip">Email</p>
-            <input
-              type="email"
-              placeholder="E-mail address"
-              name="email"
-              id="input_email"
-              className="input_field"
-              onFocus={this.myFocusMail}
-              value={registrationEmail}
-              onChange={this.handleChange.bind(this, 'registrationEmail')}
-            />
-          </div>
-          <div className="row">
-            <p id="tooltip_psw" className="tooltip">Password</p>
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              id="input_psw"
-              className="input_field"
-              onFocus={this.myFocusPsw}
-              value={registrationPassword}
-              onChange={this.handleChange.bind(this, 'registrationPassword')}
-            />
-          </div>
-          <div className="row">
-            <p id="tooltip_plate" className="tooltip">License Plate</p>
-            <input
-              type="text"
-              placeholder="Plate number"
-              name="plate"
-              id="input_plate"
-              className="input_field"
-              onFocus={this.myFocusPlate}
-              value={registrationPlateNo}
-              onChange={this.handleChange.bind(this, 'registrationPlateNo')}
-            />
-          </div>
+          <StringInputRow
+            tooltipId = "tooltip_username"
+            tooltipValue = "Username"
+            inputId = "username"
+            inputName = "username"
+            inputPlaceholder = "Username"
+            inputType = "username"
+          />
+          <StringInputRow
+            tooltipId = "tooltip_email"
+            tooltipValue = "Email"
+            inputId = "input_email"
+            inputName = "email"
+            inputPlaceholder = "E-mail address"
+            inputType = "email"
+          />
+          <StringInputRow
+            tooltipId = "tooltip_psw"
+            tooltipValue = "Password"
+            inputId = "input_psw"
+            inputName = "password"
+            inputPlaceholder = "Password"
+            inputType = "password"
+          />
+          <StringInputRow
+            tooltipId = "tooltip_plate"
+            tooltipValue = "License Plate"
+            inputId = "input_plate"
+            inputName = "plate"
+            inputPlaceholder = "Plate number"
+            inputType = "text"
+          />
           <div className="row">
             <input
               type="submit"
