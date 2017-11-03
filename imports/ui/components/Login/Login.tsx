@@ -1,8 +1,9 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import * as React from 'react';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import { Alert, FormGroup, FormControl, Button, ControlLabel } from 'react-bootstrap';
+import StringInputRow from '../StringInputRow';
 
 class Login extends React.Component<any, any> {
   constructor(props) {
@@ -17,46 +18,59 @@ class Login extends React.Component<any, any> {
     };
   }
 
+public onChange(value: any, id: any) {
+  const objNewProp: any = {};
+  objNewProp[id] = value;
+  this.setState(objNewProp);
+}
+
 public render() {
     const { email, password } = this.state;
     return (
-      <div className="container">
-        <form className="form-signin" onSubmit={this.onSubmit.bind(this)}>
-
+    <div className="usr" id="user_credentials">
+        <h4 id="sign_in">Login</h4>
+        <form
+          className="col s12"
+          onSubmit={this.onSubmit.bind(this)}
+        >
           {this.state.isSent ? <Alert bsStyle="info">Please check your email</Alert> : ''}
           {this.state.isInvalid ? <Alert bsStyle="danger">Please enter email and password</Alert> : ''}
           {this.state.isEmailRequired ? <Alert bsStyle="danger">Please enter your email address first.</Alert> : ''}
           {this.state.hasError ? <Alert bsStyle="danger">Login unsuccessful. Please try again.</Alert> : ''}
-
-          <FormGroup controlId="username">
-            <ControlLabel htmlFor="username" srOnly>Username</ControlLabel>
-            <FormControl
-              type="text"
-              id="username"
-              required
-              autoFocus
-              placeholder="Username"
-              value={email}
-              onChange={this.handleChange.bind(this, 'email')}
+          <StringInputRow
+            tooltipId = "tooltip_email"
+            tooltipValue = "Email"
+            inputId = "email"
+            inputName = "email"
+            inputPlaceholder = "Email"
+            inputType = "email"
+            onChange = {this.onChange.bind(this)}
+          />
+          <StringInputRow
+            tooltipId = "tooltip_psw"
+            tooltipValue = "Password"
+            inputId = "password"
+            inputName = "password"
+            inputPlaceholder = "Password"
+            inputType = "password"
+            onChange = {this.onChange.bind(this)}
+          />
+          <div className="row">
+            <p>
+              <input type="checkbox" id="remember" />Remember me
+            </p>
+          </div>
+          <div className="row">
+            <input
+              type="submit"
+              className="button"
+              value="Login"
+              id="signin_btn"
             />
-          </FormGroup>
-          <FormGroup controlId="password">
-            <ControlLabel htmlFor="password" srOnly>Password</ControlLabel>
-            <FormControl
-              type="password"
-              id="password"
-              required
-              placeholder="Password"
-              value={password}
-              onChange={this.handleChange.bind(this, 'password')}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Button bsStyle="primary" block type="submit">Log in</Button>
-          </FormGroup>
-          <FormGroup>
-            <a href="#" onClick={this.forgotPassword.bind(this)}>Forgot password?</a>
-          </FormGroup>
+          </div>
+          <p className="text_links" id="text_tip">
+                      New here? <Link to="/register" className="links">Create account</Link>
+          </p>
         </form>
       </div>
     );

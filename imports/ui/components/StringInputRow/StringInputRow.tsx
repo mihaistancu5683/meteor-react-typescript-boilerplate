@@ -8,6 +8,7 @@ interface IRegisterProps {
     inputName: string;
     inputPlaceholder: string;
     inputType: string;
+    onChange(fieldId: string, fieldValue: string);
 }
 
 interface IRegisterState {
@@ -22,6 +23,10 @@ export default class StringInputRow extends Component<IRegisterProps, IRegisterS
 
   public componentWillMount() {
     this.setState({visibility: 'hidden'});
+  }
+
+  public handleChangeSinglePost(value, id){
+    this.props.onChange(value, id);
   }
 
   public render() {
@@ -39,6 +44,7 @@ export default class StringInputRow extends Component<IRegisterProps, IRegisterS
               onFocus={this.toggleVisibility}
               onBlur={this.toggleVisibility}
               className="input_field"
+              onChange = {e=>this.handleChangeSinglePost(e.target.value, this.props.inputId)}
             />
           </div>
     );
