@@ -4,8 +4,6 @@
 font-family: 'Artifakt Element Regular';
  src: url('Fonts/Artifakt WEB/Element WEB/EOT/Artifakt Element Regular.eot')
 format('embedded-opentype'),
- url('Fonts/Artifakt WEB/Element WEB/WOFF/Artifakt Element Regular.woff') format('woff'),
- url('Fonts/Artifakt WEB/Element WEB/TTF/Artifakt Element Regular.ttf') format('truetype'),
  url('Fonts/Artifakt SVG/Element SVG/ArtifaktElementRegular.svg')
 format('svg');
 }
