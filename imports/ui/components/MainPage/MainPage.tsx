@@ -4,7 +4,14 @@ import { Meteor } from 'meteor/meteor';
 import LoginContainer from '../../containers/LoginContainer';
 import { browserHistory } from 'react-router';
 
-export default class MainPage extends Component {
+interface IMainPageProps {
+}
+
+interface IMainPageState {
+  isAuthenticated: boolean;
+}
+
+export default class MainPage extends Component<IMainPageProps, IMainPageState> {
 
   // is user logged in?
   static getMeteorData() {
@@ -21,14 +28,14 @@ export default class MainPage extends Component {
   // before rendered check if logged in
   // if not, redirect to /login
   componentWillMount() {
-    if (!this.refs.isAuthenticated) {
+    if (!this.state.isAuthenticated) {
       browserHistory.push('/login');
     }
   }
 
   // anytime component updates check if logged in
   componentDidUpdate() {
-    if (!this.refs.isAuthenticated) {
+    if (!this.state.isAuthenticated) {
         browserHistory.push('/login');
     }
   }
