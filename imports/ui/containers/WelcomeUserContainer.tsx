@@ -1,7 +1,15 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-export default class WelcomeUser extends Component {
+interface IWelcomeUserProps {
+  currentUser: string;
+}
+
+interface IWelcomeUserState {
+  username: string;
+}
+
+export default class WelcomeUser extends Component<IWelcomeUserProps, IWelcomeUserState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,7 +18,7 @@ export default class WelcomeUser extends Component {
   }
 
   render() {
-    const currentUser = this.refs.currentUser;
+    const currentUser = this.props.currentUser;
     const userDataAvailable = (currentUser !== undefined);
     const loggedIn = (currentUser && userDataAvailable);
 
