@@ -18,7 +18,7 @@ export default class MainPage extends Component<IMainPageProps, IMainPageState> 
      return { isAuthenticated: Meteor.userId() !== null };
   }
 
-  constructor(props) {
+  constructor(props: IMainPageProps) {
     super(props);
     // put userId in state
     this.state = MainPage.getMeteorData();

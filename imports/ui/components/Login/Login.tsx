@@ -5,19 +5,22 @@ import { browserHistory, Link } from 'react-router';
 import { Alert, FormGroup, FormControl, Button, ControlLabel } from 'react-bootstrap';
 import StringInputRow from '../StringInputRow';
 
-interface ILoginProps {
+interface IStringInputRowProps {
+  tooltipId: string;
+  tooltipValue: string;
   inputId: string;
   inputName: string;
   inputPlaceholder: string;
   inputType: string;
-  tooltipId: string;
-  tooltipValue: string;
-  onChange: (value: any, id: any) => void;
+  onChange(fieldId: string, fieldValue: string);
+}
+
+interface ILoginProps {
 }
 
 interface ILoginState {
   email: string,
-  fields: ILoginProps[],
+  fields: IStringInputRowProps[],
   hasError: boolean,
   isEmailRequired: boolean,
   isInvalid: boolean,
@@ -26,9 +29,9 @@ interface ILoginState {
 }
 
 class Login extends React.Component<ILoginProps, ILoginState> {
-  constructor(props) {
+  constructor(props: ILoginProps) {
     super(props);
-    const loginFields: ILoginProps[] = [
+    const loginFields: IStringInputRowProps[] = [
       {
         inputId: 'email',
         inputName: 'email',

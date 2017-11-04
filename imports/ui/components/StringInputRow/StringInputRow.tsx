@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-interface IRegisterProps {
+interface IStringInputRowProps {
     tooltipId: string;
     tooltipValue: string;
     inputId: string;
@@ -11,12 +11,12 @@ interface IRegisterProps {
     onChange(fieldId: string, fieldValue: string);
 }
 
-interface IRegisterState {
+interface IStringInputRowState {
     visibility: string;
 }
 
-export default class StringInputRow extends Component<IRegisterProps, IRegisterState> {
-  constructor(props: IRegisterProps) {
+export default class StringInputRow extends Component<IStringInputRowProps, IStringInputRowState> {
+  constructor(props: IStringInputRowProps) {
     super(props);
     this.toggleVisibility = this.toggleVisibility.bind(this);
   }
