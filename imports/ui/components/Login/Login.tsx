@@ -5,11 +5,53 @@ import { browserHistory, Link } from 'react-router';
 import { Alert, FormGroup, FormControl, Button, ControlLabel } from 'react-bootstrap';
 import StringInputRow from '../StringInputRow';
 
-class Login extends React.Component<any, any> {
+interface ILoginProps {
+  inputId: string;
+  inputName: string;
+  inputPlaceholder: string;
+  inputType: string;
+  tooltipId: string;
+  tooltipValue: string;
+  onChange: (value: any, id: any) => void;
+}
+
+interface ILoginState {
+  email: string,
+  fields: ILoginProps[],
+  hasError: boolean,
+  isEmailRequired: boolean,
+  isInvalid: boolean,
+  isSent: boolean,
+  password: string
+}
+
+class Login extends React.Component<ILoginProps, ILoginState> {
   constructor(props) {
     super(props);
+    const loginFields: ILoginProps[] = [
+      {
+        inputId: 'email',
+        inputName: 'email',
+        inputPlaceholder: 'E-mail address',
+        inputType: 'email',
+        onChange: (event: any) => { this.onChange.bind(this); },
+        tooltipId: 'tooltip_email',
+        tooltipValue: 'Email',
+      },
+      {
+        inputId: 'password',
+        inputName: 'password',
+        inputPlaceholder: 'Password',
+        inputType: 'password',
+        onChange: (event: any) => { this.onChange.bind(this); },
+        tooltipId: 'tooltip_psw',
+        tooltipValue: 'Password',
+      },
+    ];
+
     this.state = {
       email: '',
+      fields: loginFields,
       hasError: false,
       isEmailRequired: false,
       isInvalid: false,
@@ -37,24 +79,18 @@ public render() {
           {this.state.isInvalid ? <Alert bsStyle="danger">Please enter email and password</Alert> : ''}
           {this.state.isEmailRequired ? <Alert bsStyle="danger">Please enter your email address first.</Alert> : ''}
           {this.state.hasError ? <Alert bsStyle="danger">Login unsuccessful. Please try again.</Alert> : ''}
-          <StringInputRow
-            tooltipId = "tooltip_email"
-            tooltipValue = "Email"
-            inputId = "email"
-            inputName = "email"
-            inputPlaceholder = "Email"
-            inputType = "email"
+
+          {this.state.fields.map((item, index) => (<StringInputRow 
+            key = {index} //{...item}
+            inputId = {item.inputId}
+            inputName = {item.inputName}
+            inputPlaceholder = {item.inputPlaceholder}
+            inputType = {item.inputType}
             onChange = {this.onChange.bind(this)}
-          />
-          <StringInputRow
-            tooltipId = "tooltip_psw"
-            tooltipValue = "Password"
-            inputId = "password"
-            inputName = "password"
-            inputPlaceholder = "Password"
-            inputType = "password"
-            onChange = {this.onChange.bind(this)}
-          />
+            tooltipId = {item.tooltipId}
+            tooltipValue = {item.tooltipValue}
+          />))}
+
           <div className="row">
             <p>
               <input type="checkbox" id="remember" />Remember me

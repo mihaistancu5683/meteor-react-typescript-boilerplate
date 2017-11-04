@@ -5,12 +5,19 @@ import { Accounts } from 'meteor/accounts-base';
 import StringInputRow from '../StringInputRow';
 
 interface IRegisterProps {
-
+  inputId: string;
+  inputName: string;
+  inputPlaceholder: string;
+  inputType: string;
+  tooltipId: string;
+  tooltipValue: string;
+  onChange: (value: any, id: any) => void;
 }
 
 interface IRegisterState {
   error: string;
   email: string;
+  fields: IRegisterProps[];
   username: string;
   password: string;
   plate: string;
@@ -23,9 +30,48 @@ interface IRegisterState {
 export default class Register extends Component<IRegisterProps, IRegisterState> {
   constructor(props: IRegisterProps) {
     super(props);
+    const regFields: IRegisterProps[] = [
+      {
+        inputId: 'username',
+        inputName: 'username',
+        inputPlaceholder: 'Username',
+        inputType: 'username',
+        onChange: (event: any) => { this.onChange.bind(this); },
+        tooltipId: 'tooltip_username',
+        tooltipValue: 'Username',
+      },
+      {
+        inputId: 'email',
+        inputName: 'email',
+        inputPlaceholder: 'E-mail address',
+        inputType: 'email',
+        onChange: (event: any) => { this.onChange.bind(this); },
+        tooltipId: 'tooltip_email',
+        tooltipValue: 'Email',
+      },
+      {
+        inputId: 'password',
+        inputName: 'password',
+        inputPlaceholder: 'Password',
+        inputType: 'password',
+        onChange: (event: any) => { this.onChange.bind(this); },
+        tooltipId: 'tooltip_psw',
+        tooltipValue: 'Password',
+      },
+      {
+        inputId: 'plate',
+        inputName: 'plate',
+        inputPlaceholder: 'Plate number',
+        inputType: 'text',
+        onChange: (event: any) => { this.onChange.bind(this); },
+        tooltipId: 'tooltip_plate',
+        tooltipValue: 'License Plate',
+      },
+    ];
     this.state = {
       email: '',
       error: '',
+      fields: regFields,
       password: '',
       plate: '',
       username: '',
@@ -73,42 +119,17 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
           className="col s12"
           onSubmit={this.handleSubmit}
         >
-          <StringInputRow
-            tooltipId = "tooltip_username"
-            tooltipValue = "Username"
-            inputId = "username"
-            inputName = "username"
-            inputPlaceholder = "Username"
-            inputType = "username"
+          {this.state.fields.map((item, index) => (<StringInputRow 
+            key = {index} //{...item}
+            inputId = {item.inputId}
+            inputName = {item.inputName}
+            inputPlaceholder = {item.inputPlaceholder}
+            inputType = {item.inputType}
             onChange = {this.onChange.bind(this)}
-          />
-          <StringInputRow
-            tooltipId = "tooltip_email"
-            tooltipValue = "Email"
-            inputId = "email"
-            inputName = "email"
-            inputPlaceholder = "E-mail address"
-            inputType = "email"
-            onChange = {this.onChange.bind(this)}
-          />
-          <StringInputRow
-            tooltipId = "tooltip_psw"
-            tooltipValue = "Password"
-            inputId = "password"
-            inputName = "password"
-            inputPlaceholder = "Password"
-            inputType = "password"
-            onChange = {this.onChange.bind(this)}
-          />
-          <StringInputRow
-            tooltipId = "tooltip_plate"
-            tooltipValue = "License Plate"
-            inputId = "plate"
-            inputName = "plate"
-            inputPlaceholder = "Plate number"
-            inputType = "text"
-            onChange = {this.onChange.bind(this)}
-          />
+            tooltipId = {item.tooltipId}
+            tooltipValue = {item.tooltipValue}
+          />))}
+          
           <div className="row">
             <input
               type="submit"
@@ -118,7 +139,7 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
             />
           </div>
           <p className="text_links">
-                  Already have an account? <Link className="links" to="/login">Login</Link>
+            Already have an account? <Link className="links" to="/login">Login</Link>
           </p>
         </form>
       </div>
