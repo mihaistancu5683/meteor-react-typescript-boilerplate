@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 
 interface IWelcomeUserProps {
-  currentUser: string;
+  currentUser: Meteor.User;
 }
 
 interface IWelcomeUserState {
@@ -24,7 +24,7 @@ export default class WelcomeUser extends Component<IWelcomeUserProps, IWelcomeUs
 
     return (
       <div id="welcome_user">
-        { loggedIn ? `Hi, ${currentUser}` : '' }
+        { loggedIn ? `Hi, ${currentUser.username}` : '' }
       </div>
     );
   }
