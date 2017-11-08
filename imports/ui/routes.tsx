@@ -6,6 +6,7 @@ import App from './App';
 import Login from './components/Login';
 import Register from './components/Register';
 import MainPage from './components/MainPage';
+import BookParking from './components/BookParking';
 import Admin from './components/Admin';
 import TasksContainer from './containers/TasksContainer';
 
@@ -20,6 +21,7 @@ export default (
     <Route component={App}>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/parking" component={BookParking} />
         <Route path="/" component={MainPage} />
         <Route path="/admin" component={Admin} onEnter={forceLogin}>
             <Route path="tasks" component={TasksContainer} />

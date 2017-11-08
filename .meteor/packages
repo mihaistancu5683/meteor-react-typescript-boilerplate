@@ -28,3 +28,6 @@ fourseven:scss
 accounts-password
 alanning:roles
 reactrouter:react-router-ssr
+aldeed:collection2-core@2.0.0
+aldeed:schema-deny
+aldeed:schema-index
