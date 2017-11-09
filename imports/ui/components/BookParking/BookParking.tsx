@@ -27,22 +27,23 @@ export default class BookParking extends Component<IBookParkingProps, IBookParki
   }
   render() {
     return (
-      <div>
+      <div id="user_credentials" className="usr" >
+        <h4 id="new_account">Book parking date</h4>
         <form
           className="col s12"
           onSubmit={this.submitBooking}
         >
-          <h3> Add new booking </h3>
           <div className="row">
-            <div className="input-field col s6">
-              <button className="btn waves-effect waves-light" type="submit">Add
-                <i className="material-icons right"> send </i>
-              </button>
-            </div>
+          <div className="input-field col s6">
+            <input
+              type="submit"
+              className="button"
+              value="Today"
+            />
           </div>
+        </div>
         </form>
       </div>
     );
   }
 }
-
