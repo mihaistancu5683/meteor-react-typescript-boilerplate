@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 
 import '../imports/api/tasks';
+import '../imports/api/ParkingSpots';
 
 Meteor.startup(() => {
   const adminUser = Meteor.users.findOne({ username: 'admin' });

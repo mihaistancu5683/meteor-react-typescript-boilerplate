@@ -9,3 +9,9 @@ const ParkingSpotSchema = new SimpleSchema({
   isActive: { type: Boolean, optional: false },
 });
 ParkingSpots.attachSchema(ParkingSpotSchema);
+
+if (Meteor.isServer) {
+  Meteor.publish('ParkingSpots', function() {
+    return ParkingSpots.find({});
+  });
+}
