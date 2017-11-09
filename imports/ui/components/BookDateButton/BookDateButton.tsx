@@ -24,9 +24,7 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
     ParkingSpots.insert({
       date: new Date(),
       userId: 'MockId',
-      isActive: true,
     });
-    browserHistory.push('/'); // after inserting go back home
   }
 
   public componentWillMount() {
