@@ -67,11 +67,11 @@ export default class BookParking extends Component<IBookParkingProps, IBookParki
           <div className="row">
             <div className="input-field col s6">
               <BookDateButton
-                date={"Today"}
+                date={today_str}
                 userId="user"
               />
               <BookDateButton
-                date={"Tomorrow"}
+                date={day2_str}
                 userId="user"
               />
               <BookDateButton
