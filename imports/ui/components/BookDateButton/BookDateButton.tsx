@@ -9,54 +9,42 @@ interface IBookDateButtonProps {
 }
 
 interface IBookDateButtonState {
-    state: Number, //1 - available, 2 - booked by this user, 3 - unavailable
+    isDisabled: Boolean,
+    isBookedBySomeoneElse: Boolean
 }
 
 export default class BookDateButton extends Component<IBookDateButtonProps, IBookDateButtonState> {
   constructor(props: IBookDateButtonProps) {
     super(props);
-    this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.state = { isDisabled: false, isBookedBySomeoneElse: false }
     this.submitBooking = this.submitBooking.bind(this);
   }
 
-  submitBooking(event) {
+  submitBooking(date, userId) {
     event.preventDefault(); // prevent refresh and submit
     ParkingSpots.insert({
-      date: new Date(),
-      userId: 'MockId',
+      date:[userId]
     });
   }
 
   public componentWillMount() {
     const today = new Date();
-    this.setState({visibility: 'hidden'});
-  }
-
-  public handleClick(user, date){
-    this.props.onChange(user, date);
+    this.setState({isDisabled:false, isBookedBySomeoneElse:false});
   }
 
   public render() {
-    const { visibility } = this.state;
+    const { isDisabled, isBookedBySomeoneElse } = this.state;
     return (
       <div>
         <input
             type="submit"
             className="button"
             value={this.props.date.toString()}
-            onChange = {e=>this.handleClick(e.target.value, this.props.date.toString())}
-            onSubmit={this.submitBooking}
+            onSubmit={e=>this.submitBooking(this.props.date, this.props.userId)}
+            isDisabled = {(this.state.isDisabled)? "disabled" : ""}
         />
         <p> </p>
       </div>
     );
-  }
-
-  public toggleVisibility() {
-      if (this.state.visibility === 'visible') {
-          this.setState({visibility: 'hidden'});
-      }else{
-          this.setState({visibility: 'visible'});
-      }
   }
 }
