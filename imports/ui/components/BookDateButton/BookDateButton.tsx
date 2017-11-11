@@ -9,8 +9,8 @@ interface IBookDateButtonProps {
 }
 
 interface IBookDateButtonState {
-    isDisabled: Boolean,
-    isBookedBySomeoneElse: Boolean
+    isDisabled: boolean,
+    isBookedBySomeoneElse: boolean
 }
 
 export default class BookDateButton extends Component<IBookDateButtonProps, IBookDateButtonState> {
@@ -20,11 +20,15 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
     this.submitBooking = this.submitBooking.bind(this);
   }
 
-  submitBooking(date, userId) {
-    event.preventDefault(); // prevent refresh and submit
-    ParkingSpots.insert({
-      date:[userId]
-    });
+  submitBooking(e, date, userId) {
+    e.preventDefault();
+    const temp_date:string = date;
+    const obj:object = {
+          date: temp_date,
+          Id: userId,
+          cancelled: false
+    }
+    ParkingSpots.insert(obj);
   }
 
   public componentWillMount() {
@@ -40,8 +44,8 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
             type="submit"
             className="button"
             value={this.props.date.toString()}
-            onSubmit={e=>this.submitBooking(this.props.date, this.props.userId)}
-            isDisabled = {(this.state.isDisabled)? "disabled" : ""}
+            onClick={e=>this.submitBooking(e,this.props.date, this.props.userId)}
+            disabled = {this.state.isDisabled}
         />
         <p> </p>
       </div>

@@ -3,11 +3,13 @@ import SimpleSchema from 'simpl-schema';
 
 export const ParkingSpots:any = new Mongo.Collection('ParkingSpots');
 
-const ParkingSpotSchema = new SimpleSchema({
-  date: { type: String, optional: false },
-  userId: { type: String, optional: false },
-  isActive: { type: Boolean, optional: false },
-});
+const ParkingSpotSchema = new SimpleSchema(
+  {
+      date: String,
+      Id: String,
+      cancelled: Boolean
+  }
+);
 ParkingSpots.attachSchema(ParkingSpotSchema);
 
 if (Meteor.isServer) {
