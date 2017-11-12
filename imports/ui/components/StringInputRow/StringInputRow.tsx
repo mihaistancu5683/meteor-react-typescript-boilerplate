@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Component } from 'react';
 
 interface IStringInputRowProps {
-    tooltipId: string;
     tooltipValue: string;
     inputId: string;
     inputName: string;
@@ -33,19 +32,18 @@ export default class StringInputRow extends Component<IStringInputRowProps, IStr
     const { visibility } = this.state;
     return (
           <div className="row">
-            <p id={this.props.tooltipId}
-               className="tooltip"
-               style={{visibility : this.state.visibility}}>{this.props.tooltipValue}</p>
-            <input
-              placeholder={this.props.inputPlaceholder}
-              name={this.props.inputName}
-              id={this.props.inputId}
-              type={this.props.inputType}
-              onFocus={this.toggleVisibility}
-              onBlur={this.toggleVisibility}
-              className="input_field"
-              onChange = {e=>this.handleChangeSinglePost(e.target.value, this.props.inputId)}
-            />
+            <div className="input-field col s12">
+              <p style={{visibility : this.state.visibility}}>{this.props.tooltipValue}</p>
+              <input
+                placeholder={this.props.inputPlaceholder}
+                name={this.props.inputName}
+                id={this.props.inputId}
+                type={this.props.inputType}
+                onFocus={this.toggleVisibility}
+                onBlur={this.toggleVisibility}
+                onChange = {e=>this.handleChangeSinglePost(e.target.value, this.props.inputId)}
+              />
+            </div>
           </div>
     );
   }

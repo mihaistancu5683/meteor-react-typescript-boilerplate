@@ -6,7 +6,6 @@ import { Alert, FormGroup, FormControl, Button, ControlLabel } from 'react-boots
 import StringInputRow from '../StringInputRow';
 
 interface IStringInputRowProps {
-  tooltipId: string;
   tooltipValue: string;
   inputId: string;
   inputName: string;
@@ -38,7 +37,6 @@ class Login extends React.Component<ILoginProps, ILoginState> {
         inputPlaceholder: 'E-mail address',
         inputType: 'email',
         onChange: (event: any) => { this.onChange.bind(this); },
-        tooltipId: 'tooltip_email',
         tooltipValue: 'Email',
       },
       {
@@ -47,7 +45,6 @@ class Login extends React.Component<ILoginProps, ILoginState> {
         inputPlaceholder: 'Password',
         inputType: 'password',
         onChange: (event: any) => { this.onChange.bind(this); },
-        tooltipId: 'tooltip_psw',
         tooltipValue: 'Password',
       },
     ];
@@ -72,45 +69,54 @@ public onChange(value: any, id: any) {
 public render() {
     const { email, password } = this.state;
     return (
-    <div className="usr" id="user_credentials">
-        <h4 id="sign_in">Login</h4>
-        <form
-          className="col s12"
-          onSubmit={this.onSubmit.bind(this)}
-        >
-          {this.state.isSent ? <Alert bsStyle="info">Please check your email</Alert> : ''}
-          {this.state.isInvalid ? <Alert bsStyle="danger">Please enter email and password</Alert> : ''}
-          {this.state.isEmailRequired ? <Alert bsStyle="danger">Please enter your email address first.</Alert> : ''}
-          {this.state.hasError ? <Alert bsStyle="danger">Login unsuccessful. Please try again.</Alert> : ''}
+      <div className="container z-depth-1 grey lighten-4 row" style={{ display: 'inline-block', padding: '32px 48px 0px 48px', border: '1px solid #EEE' }}>
+        <div className="row">
+          <div className="center-align">
+            <h2 className="center-align">Login</h2>
+            <form
+              className="col s12"
+              onSubmit={this.onSubmit.bind(this)}
+            >
+              {this.state.isSent ? <Alert bsStyle="info">Please check your email</Alert> : ''}
+              {this.state.isInvalid ? <Alert bsStyle="danger">Please enter email and password</Alert> : ''}
+              {this.state.isEmailRequired ? <Alert bsStyle="danger">Please enter your email address first.</Alert> : ''}
+              {this.state.hasError ? <Alert bsStyle="danger">Login unsuccessful. Please try again.</Alert> : ''}
 
-          {this.state.fields.map((item, index) => (<StringInputRow 
-            key = {index} //{...item}
-            inputId = {item.inputId}
-            inputName = {item.inputName}
-            inputPlaceholder = {item.inputPlaceholder}
-            inputType = {item.inputType}
-            onChange = {this.onChange.bind(this)}
-            tooltipId = {item.tooltipId}
-            tooltipValue = {item.tooltipValue}
-          />))}
+              {this.state.fields.map((item, index) => (<StringInputRow 
+                key = {index} //{...item}
+                inputId = {item.inputId}
+                inputName = {item.inputName}
+                inputPlaceholder = {item.inputPlaceholder}
+                inputType = {item.inputType}
+                onChange = {this.onChange.bind(this)}
+                tooltipValue = {item.tooltipValue}
+              />))}
 
-          <div className="row">
-            <p>
-              <input type="checkbox" id="remember" />Remember me
-            </p>
+              <div className="row">
+                <div className="col s12">
+                  <p>
+                    <input type="checkbox" id="remember" />
+                  </p>
+                </div>
+              </div>
+              <div className="divider" />
+              <div className="row">
+                <div className="col m12">
+                  <p className="right-align">
+                    <input
+                      type="submit"
+                      className="btn btn-large waves-effect waves-light"
+                      value="Login"
+                    />
+                  </p>
+                </div>
+              </div>
+              <p className="text_links" id="text_tip">
+                Don't have an account yet? Signup <Link to="/register" className="links">here</Link>
+              </p>
+            </form>
           </div>
-          <div className="row">
-            <input
-              type="submit"
-              className="button"
-              value="Login"
-              id="signin_btn"
-            />
-          </div>
-          <p className="text_links" id="text_tip">
-                      New here? <Link to="/register" className="links">Create account</Link>
-          </p>
-        </form>
+        </div>
       </div>
     );
   }

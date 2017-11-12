@@ -9,7 +9,6 @@ interface IRegisterProps {
   inputName: string;
   inputPlaceholder: string;
   inputType: string;
-  tooltipId: string;
   tooltipValue: string;
   onChange: (value: any, id: any) => void;
 }
@@ -35,9 +34,8 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
         inputId: 'username',
         inputName: 'username',
         inputPlaceholder: 'Username',
-        inputType: 'username',
+        inputType: 'text',
         onChange: (event: any) => { this.onChange.bind(this); },
-        tooltipId: 'tooltip_username',
         tooltipValue: 'Username',
       },
       {
@@ -46,7 +44,6 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
         inputPlaceholder: 'E-mail address',
         inputType: 'email',
         onChange: (event: any) => { this.onChange.bind(this); },
-        tooltipId: 'tooltip_email',
         tooltipValue: 'Email',
       },
       {
@@ -55,7 +52,6 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
         inputPlaceholder: 'Password',
         inputType: 'password',
         onChange: (event: any) => { this.onChange.bind(this); },
-        tooltipId: 'tooltip_psw',
         tooltipValue: 'Password',
       },
       {
@@ -64,7 +60,6 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
         inputPlaceholder: 'Plate number',
         inputType: 'text',
         onChange: (event: any) => { this.onChange.bind(this); },
-        tooltipId: 'tooltip_plate',
         tooltipValue: 'License Plate',
       },
     ];
@@ -112,36 +107,42 @@ export default class Register extends Component<IRegisterProps, IRegisterState> 
   public render() {
     const { error, email, username, password, plate } = this.state;
     return (
-      <div id="user_credentials" className="usr" >
-        <h4 id="new_account">Sign up</h4>
-        { error.length > 0 ? <div className="alert alert-danger fade in">{error}</div> : ''}
-        <form
-          className="col s12"
-          onSubmit={this.handleSubmit}
-        >
-          {this.state.fields.map((item, index) => (<StringInputRow 
-            key = {index} //{...item}
-            inputId = {item.inputId}
-            inputName = {item.inputName}
-            inputPlaceholder = {item.inputPlaceholder}
-            inputType = {item.inputType}
-            onChange = {this.onChange.bind(this)}
-            tooltipId = {item.tooltipId}
-            tooltipValue = {item.tooltipValue}
-          />))}
-          
-          <div className="row">
-            <input
-              type="submit"
-              className="button"
-              value="Sign Up"
-              id="create_account_btn"
-            />
+      <div className="container z-depth-1 grey lighten-4 row" style={{ display: 'inline-block', padding: '32px 48px 0px 48px', border: '1px solid #EEE' }}>
+        <div className="row">
+          <div className="center-align">
+            <h2 className="center-align">Register</h2>
+              { error.length > 0 ? <div className="alert alert-danger fade in">{error}</div> : ''}
+              <form
+                className="col s12"
+                onSubmit={this.handleSubmit}
+              >
+                {this.state.fields.map((item, index) => (<StringInputRow 
+                  key = {index} //{...item}
+                  inputId = {item.inputId}
+                  inputName = {item.inputName}
+                  inputPlaceholder = {item.inputPlaceholder}
+                  inputType = {item.inputType}
+                  onChange = {this.onChange.bind(this)}
+                  tooltipValue = {item.tooltipValue}
+                />))}
+                <div className="divider" />
+                <div className="row">
+                  <div className="col m12">
+                    <p className="left-align">
+                      <input
+                        type="submit"
+                        className="btn btn-large waves-effect waves-light"
+                        value="Sign Up"
+                      />
+                    </p>
+                  </div>
+                </div>
+                <p className="text-center">
+                  Already have an account? <Link className="links" to="/login">Login</Link>
+                </p>
+              </form>
           </div>
-          <p className="text_links">
-            Already have an account? <Link className="links" to="/login">Login</Link>
-          </p>
-        </form>
+        </div>
       </div>
     );
   }
