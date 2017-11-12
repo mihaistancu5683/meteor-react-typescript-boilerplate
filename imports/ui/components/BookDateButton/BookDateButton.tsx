@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { ParkingSpots } from '../../../api/ParkingSpots.js';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 interface IBookDateButtonProps {
     date: String,
@@ -38,17 +40,26 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
 
   public render() {
     const { isDisabled, isBookedBySomeoneElse } = this.state;
+
+    const style = {
+      margin: 12,
+    };
+
     return (
-      <div>
-        <input
-            type="submit"
-            className="button"
-            value={this.props.date.toString()}
-            onClick={e=>this.submitBooking(e,this.props.date, this.props.userId)}
-            disabled = {this.state.isDisabled}
-        />
-        <p> </p>
-      </div>
+      <MuiThemeProvider>
+        <div>
+          <RaisedButton 
+              style={style}
+              //backgroundColor="blue"
+              type="submit"
+              className="button"
+              label={this.props.date.toString()}
+              onClick={e=>this.submitBooking(e,this.props.date, this.props.userId)}
+              disabled = {this.state.isDisabled}
+          />
+          <p> </p>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

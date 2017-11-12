@@ -59,44 +59,48 @@ export default class BookParking extends Component<IBookParkingProps, IBookParki
 
 
     return (
-      <div id="user_credentials" className="usr" >
-        <h4 id="new_account">Book parking date</h4>
-        <form
-          className="col s12"
-        >
-          <div className="row">
-            <div className="input-field col s6">
-              <BookDateButton
-                date={today_str}
-                userId="user"
-              />
-              <BookDateButton
-                date={day2_str}
-                userId="user"
-              />
-              <BookDateButton
-                date={day3_str}
-                userId="user"
-              />
-              <BookDateButton
-                date={day4_str}
-                userId="user"
-              />
-              <BookDateButton
-                date={day5_str}
-                userId="user"
-              />
-              <BookDateButton
-                date={day6_str}
-                userId="user"
-              />
-              <BookDateButton
-                date={day7_str}
-                userId="user"
-              />
-            </div>
+      <div className="container z-depth-1 grey lighten-4 row" style={{ display: 'inline-block', padding: '32px 48px 0px 48px', border: '1px solid #EEE' }}>
+        <div className="row">
+          <div className="center-align">
+            <h2 className="center-align">Book Parking</h2>
+            <form
+              className="col s12"
+            >
+              <div className="row">
+                <div className="input-field col s6">
+                  <BookDateButton
+                    date={today_str}
+                    userId="user"
+                  />
+                  <BookDateButton
+                    date={day2_str}
+                    userId="user"
+                  />
+                  <BookDateButton
+                    date={day3_str}
+                    userId="user"
+                  />
+                  <BookDateButton
+                    date={day4_str}
+                    userId="user"
+                  />
+                  <BookDateButton
+                    date={day5_str}
+                    userId="user"
+                  />
+                  <BookDateButton
+                    date={day6_str}
+                    userId="user"
+                  />
+                  <BookDateButton
+                    date={day7_str}
+                    userId="user"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-        </form>
       </div>
     );
   }
