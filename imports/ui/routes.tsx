@@ -21,10 +21,6 @@ export default (
     <Route component={App}>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/parking" component={BookParking} />
-        <Route path="/" component={MainPage} />
-        <Route path="/admin" component={Admin} onEnter={forceLogin}>
-            <Route path="tasks" component={TasksContainer} />
-        </Route>
+        <Route path="/" component={BookParking} />
     </Route>
 );
