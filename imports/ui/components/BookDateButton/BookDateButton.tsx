@@ -11,14 +11,13 @@ interface IBookDateButtonProps {
 }
 
 interface IBookDateButtonState {
-    isDisabled: boolean,
-    isBookedBySomeoneElse: boolean
+    isAlreadyBookedByCurrentUser: boolean,
+    isParkingFullyBooked: boolean
 }
 
 export default class BookDateButton extends Component<IBookDateButtonProps, IBookDateButtonState> {
   constructor(props: IBookDateButtonProps) {
     super(props);
-    this.state = { isDisabled: false, isBookedBySomeoneElse: false }
     this.submitBooking = this.submitBooking.bind(this);
   }
 
@@ -34,12 +33,26 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
   }
 
   public componentWillMount() {
+    const availablePSpots = 5;
     const today = new Date();
-    this.setState({isDisabled:false, isBookedBySomeoneElse:false});
+    const pSpotsListToday: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date}).fetch();
+    const pSpotsListTodayThisUser: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date, userId: this.props.userId}).fetch();
+    if (pSpotsListTodayThisUser.length == 1)
+    {
+      this.setState({isAlreadyBookedByCurrentUser: true, isParkingFullyBooked: false});
+    }
+    else if(pSpotsListToday.length >= availablePSpots)
+    {
+      this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: true});
+    }
+    else
+    {
+      this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: false});
+    }
   }
 
   public render() {
-    const { isDisabled, isBookedBySomeoneElse } = this.state;
+    const { isAlreadyBookedByCurrentUser, isParkingFullyBooked } = this.state;
 
     const style = {
       margin: 12,
@@ -50,12 +63,12 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
         <div>
           <RaisedButton 
               style={style}
-              //backgroundColor="blue"
+              backgroundColor="blue"
               type="submit"
               className="button"
               label={this.props.date.toString()}
               onClick={e=>this.submitBooking(e,this.props.date, this.props.userId)}
-              disabled = {this.state.isDisabled}
+              disabled = {this.state.isAlreadyBookedByCurrentUser || this.state.isParkingFullyBooked}
           />
           <p> </p>
         </div>
