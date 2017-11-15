@@ -30,9 +30,11 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
           cancelled: false
     }
     ParkingSpots.insert(obj);
+    this.setState({isAlreadyBookedByCurrentUser: true});
   }
 
   public componentWillMount() {
+    Meteor.subscribe('ParkingSpots');
     const availablePSpots = 5;
     const today = new Date();
     const pSpotsListToday: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date}).fetch();
@@ -63,7 +65,7 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
         <div>
           <RaisedButton 
               style={style}
-              backgroundColor="blue"
+              backgroundColor={isAlreadyBookedByCurrentUser ? "gray" : "blue"}
               type="submit"
               className="button"
               label={this.props.date.toString()}
