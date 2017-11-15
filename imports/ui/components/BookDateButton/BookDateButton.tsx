@@ -21,7 +21,7 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
     this.submitBooking = this.submitBooking.bind(this);
   }
 
-  submitBooking(e, date, userId) {
+  public submitBooking(e, date, userId) {
     e.preventDefault();
     const temp_date:string = date;
     const obj:object = {
@@ -30,10 +30,11 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
           cancelled: false
     }
     ParkingSpots.insert(obj);
-    this.setState({isAlreadyBookedByCurrentUser: true});
+    this.updateComponentState();
   }
 
-  public componentWillMount() {
+  public updateComponentState()
+  {
     Meteor.subscribe('ParkingSpots');
     const availablePSpots = 5;
     const today = new Date();
@@ -51,6 +52,10 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
     {
       this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: false});
     }
+  }
+
+  public componentWillMount() {
+    this.updateComponentState();
   }
 
   public render() {
