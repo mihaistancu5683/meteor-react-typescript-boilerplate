@@ -39,7 +39,7 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
     const availablePSpots = 5;
     const today = new Date();
     const pSpotsListToday: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date}).fetch();
-    const pSpotsListTodayThisUser: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date, userId: this.props.userId}).fetch();
+    const pSpotsListTodayThisUser: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date, Id: this.props.userId}).fetch();
     if (pSpotsListTodayThisUser.length == 1)
     {
       this.setState({isAlreadyBookedByCurrentUser: true, isParkingFullyBooked: false});
