@@ -18,10 +18,11 @@ interface IBookDateButtonState {
 export default class BookDateButton extends Component<IBookDateButtonProps, IBookDateButtonState> {
   constructor(props: IBookDateButtonProps) {
     super(props);
-    this.submitBooking = this.submitBooking.bind(this);
+    this.submitOrCancelBooking = this.submitOrCancelBooking.bind(this);
+    this.state = {isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: true};
   }
 
-  public submitBooking(e, date, userId) {
+  public submitOrCancelBooking(e, date, userId) {
     e.preventDefault();
     const temp_date:string = date;
     const obj:object = {
@@ -29,32 +30,41 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
           Id: userId,
           cancelled: false
     }
-    ParkingSpots.insert(obj);
+    if(this.state.isAlreadyBookedByCurrentUser)
+    {
+      ParkingSpots.remove(obj);
+    }
+    else
+    {
+      ParkingSpots.insert(obj);
+    }
     this.updateComponentState();
   }
 
   public updateComponentState()
   {
-    Meteor.subscribe('ParkingSpots');
-    const availablePSpots = 5;
-    const today = new Date();
-    const pSpotsListToday: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date}).fetch();
-    const pSpotsListTodayThisUser: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date, Id: this.props.userId}).fetch();
-    if (pSpotsListTodayThisUser.length == 1)
-    {
-      this.setState({isAlreadyBookedByCurrentUser: true, isParkingFullyBooked: false});
-    }
-    else if(pSpotsListToday.length >= availablePSpots)
-    {
-      this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: true});
-    }
-    else
-    {
-      this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: false});
-    }
+    // When the data is received asynchronously, set the state
+    const sub = Meteor.subscribe('ParkingSpots',() => {
+      const availablePSpots = 5;
+      const today = new Date();
+      const pSpotsListToday: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date}).fetch();
+      const pSpotsListTodayThisUser: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date, Id: this.props.userId}).fetch();
+      if (pSpotsListTodayThisUser.length == 1)
+      {
+        this.setState({isAlreadyBookedByCurrentUser: true, isParkingFullyBooked: false});
+      } 
+      else if(pSpotsListToday.length >= availablePSpots)
+      {
+        this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: true});
+      } 
+      else 
+      {
+        this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: false});
+      }
+    });
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     this.updateComponentState();
   }
 
@@ -70,12 +80,13 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
         <div>
           <RaisedButton 
               style={style}
-              backgroundColor={isAlreadyBookedByCurrentUser ? "gray" : "blue"}
+              backgroundColor={isAlreadyBookedByCurrentUser ? "green" :
+                                isParkingFullyBooked ? "gray" : "blue"}
               type="submit"
               className="button"
               label={this.props.date.toString()}
-              onClick={e=>this.submitBooking(e,this.props.date, this.props.userId)}
-              disabled = {this.state.isAlreadyBookedByCurrentUser || this.state.isParkingFullyBooked}
+              onClick={e=>this.submitOrCancelBooking(e,this.props.date, this.props.userId)}
+              disabled = {this.state.isParkingFullyBooked}
           />
           <p> </p>
         </div>
