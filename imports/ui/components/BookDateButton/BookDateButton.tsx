@@ -32,7 +32,8 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
     }
     if(this.state.isAlreadyBookedByCurrentUser)
     {
-      ParkingSpots.remove(obj);
+      const ceva = ParkingSpots.findOne({date : this.props.date});
+      ParkingSpots.remove(ceva._id);
     }
     else
     {
