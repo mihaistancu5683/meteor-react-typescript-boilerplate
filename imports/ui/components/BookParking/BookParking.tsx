@@ -2,20 +2,57 @@ import { Component } from 'react';
 import * as React from 'react';
 import { browserHistory } from 'react-router';
 import BookDateButton from '../BookDateButton';
+import LoginContainer from '../../containers/LoginContainer';
 
   interface IBookParkingProps {
   }
 
   interface IBookParkingState {
     userId: string;
+    isAuthenticated: boolean;
   }
 
 export default class BookParking extends Component<IBookParkingProps, IBookParkingState> {
-  constructor(props) {
-    super(props);
-    this.state = {userId: Meteor.userId()};
-  }
+  // is user logged in?
+  static getMeteorData() {
+    return { isAuthenticated: Meteor.userId() !== null, userId: Meteor.userId() };
+ }
 
+ constructor(props: IBookParkingProps) {
+   super(props);
+   // put userId in state
+   this.state = BookParking.getMeteorData();
+   this.logout = this.logout.bind(this);
+ }
+   
+ // before rendered check if logged in
+ // if not, redirect to /login
+ componentWillMount() {
+   if (!this.state.isAuthenticated) {
+     browserHistory.push('/login');
+   }
+ }
+
+ // anytime component updates check if logged in
+ componentDidUpdate() {
+   if (!this.state.isAuthenticated) {
+       browserHistory.push('/login');
+   }
+ }
+
+ // when called use Meteor.logout to logout
+ // throw errors if any and print to console
+ // otherwise redirect to /login
+ logout(e) {
+   e.preventDefault();
+   Meteor.logout((err) => {
+     if (err) {
+       console.log(err.reason);
+     } else {
+       browserHistory.push('/login');
+     }
+   });
+ }
   render() {
     const today = new Date(new Date().getTime() + 0 * 24 * 60 * 60 * 1000);
     const today_dd = today.getDate();
@@ -63,6 +100,7 @@ export default class BookParking extends Component<IBookParkingProps, IBookParki
     return (
       <div className="container z-depth-1 grey lighten-4 row" style={{ display: 'inline-block', padding: '32px 48px 0px 48px', border: '1px solid #EEE' }}>
         <div className="row">
+          <LoginContainer /><a href="" onClick={this.logout}>Logout</a>
           <div className="center-align">
             <h2 className="center-align">Book Parking</h2>
             <form

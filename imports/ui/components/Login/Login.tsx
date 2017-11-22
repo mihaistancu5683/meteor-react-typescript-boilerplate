@@ -137,7 +137,7 @@ public render() {
       if (err) {
         this.setState({ isInvalid: false, isEmailRequired: false, hasError: true, isSent: false });
       } else {
-        browserHistory.push('/admin');
+        browserHistory.push('/parking');
       }
     });
   }

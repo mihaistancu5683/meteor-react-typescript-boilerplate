@@ -21,6 +21,7 @@ export default (
     <Route component={App}>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/" component={BookParking} />
+        <Route path="/parking" component={BookParking} />
+        <Route path="*" component={Login} />
     </Route>
 );
