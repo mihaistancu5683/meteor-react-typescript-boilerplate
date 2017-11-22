@@ -7,11 +7,13 @@ import BookDateButton from '../BookDateButton';
   }
 
   interface IBookParkingState {
+    userId: string;
   }
 
 export default class BookParking extends Component<IBookParkingProps, IBookParkingState> {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {userId: Meteor.userId()};
   }
 
   render() {
@@ -70,31 +72,31 @@ export default class BookParking extends Component<IBookParkingProps, IBookParki
                 <div className="input-field col s6">
                   <BookDateButton
                     date={today_str}
-                    userId="user"
+                    userId={this.state.userId}
                   />
                   <BookDateButton
                     date={day2_str}
-                    userId="user"
+                    userId={this.state.userId}
                   />
                   <BookDateButton
                     date={day3_str}
-                    userId="user"
+                    userId={this.state.userId}
                   />
                   <BookDateButton
                     date={day4_str}
-                    userId="user"
+                    userId={this.state.userId}
                   />
                   <BookDateButton
                     date={day5_str}
-                    userId="user"
+                    userId={this.state.userId}
                   />
                   <BookDateButton
                     date={day6_str}
-                    userId="user"
+                    userId={this.state.userId}
                   />
                   <BookDateButton
                     date={day7_str}
-                    userId="user"
+                    userId={this.state.userId}
                   />
                 </div>
               </div>
