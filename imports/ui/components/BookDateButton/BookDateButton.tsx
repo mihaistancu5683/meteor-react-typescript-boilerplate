@@ -11,15 +11,14 @@ interface IBookDateButtonProps {
 }
 
 interface IBookDateButtonState {
-    isAlreadyBookedByCurrentUser: boolean,
-    isParkingFullyBooked: boolean
+    stateId: Number //1-available, 2-booked, 3-unavailable
 }
 
 export default class BookDateButton extends Component<IBookDateButtonProps, IBookDateButtonState> {
   constructor(props: IBookDateButtonProps) {
     super(props);
     this.submitOrCancelBooking = this.submitOrCancelBooking.bind(this);
-    this.state = {isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: true};
+    this.state = {stateId: 3};
   }
 
   public submitOrCancelBooking(e, date, userId) {
@@ -30,7 +29,7 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
           Id: userId,
           cancelled: false
     }
-    if(this.state.isAlreadyBookedByCurrentUser)
+    if(this.state.stateId == 2)
     {
       const ceva = ParkingSpots.findOne({date : this.props.date});
       ParkingSpots.remove(ceva._id);
@@ -52,15 +51,15 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
       const pSpotsListTodayThisUser: IBookDateButtonProps[] = ParkingSpots.find({date : this.props.date, Id: this.props.userId}).fetch();
       if (pSpotsListTodayThisUser.length == 1)
       {
-        this.setState({isAlreadyBookedByCurrentUser: true, isParkingFullyBooked: false});
+        this.setState({stateId: 2});
       } 
       else if(pSpotsListToday.length >= availablePSpots)
       {
-        this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: true});
+        this.setState({stateId: 3});
       } 
       else 
       {
-        this.setState({isAlreadyBookedByCurrentUser: false, isParkingFullyBooked: false});
+        this.setState({stateId: 1});
       }
     });
   }
@@ -70,7 +69,7 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
   }
 
   public render() {
-    const { isAlreadyBookedByCurrentUser, isParkingFullyBooked } = this.state;
+    const { stateId } = this.state;
 
     const style = {
       margin: 12,
@@ -81,13 +80,13 @@ export default class BookDateButton extends Component<IBookDateButtonProps, IBoo
         <div>
           <RaisedButton 
               style={style}
-              backgroundColor={isAlreadyBookedByCurrentUser ? "green" :
-                                isParkingFullyBooked ? "gray" : "blue"}
+              primary={stateId == 1}
+              secondary={stateId == 2}
               type="submit"
               className="button"
               label={this.props.date.toString()}
               onClick={e=>this.submitOrCancelBooking(e,this.props.date, this.props.userId)}
-              disabled = {this.state.isParkingFullyBooked}
+              disabled = {stateId == 3}
           />
           <p> </p>
         </div>
